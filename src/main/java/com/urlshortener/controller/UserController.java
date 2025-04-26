@@ -61,14 +61,11 @@ public class UserController {
 
         String name = userJson.get("name").getAsString();
         log.debug("Creating user with name : {}", name);
-        User newUser;
-        UserSecret userSecret;
-        List<Url> urls;
         log.debug("Mapping user {} to User Entity", name);
-        userSecret = objectMapper.readValue(payLoad, UserSecret.class);
-        urls = objectMapper.readValue(userJson.get("url").getAsJsonArray().toString(), new TypeReference<>() {
+        UserSecret userSecret = objectMapper.readValue(payLoad, UserSecret.class);
+        List<Url> urls = objectMapper.readValue(userJson.get("url").getAsJsonArray().toString(), new TypeReference<>() {
         });
-        newUser = objectMapper.readValue(payLoad, User.class);
+        User newUser = objectMapper.readValue(payLoad, User.class);
         log.debug("Mapping completed {} to User Entity", name);
         userService.saveUser(newUser);
         urls.forEach(e -> e.setUser(newUser));
