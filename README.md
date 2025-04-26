@@ -19,5 +19,5 @@ This is a Spring Boot application for a URL Shortener service. It allows users t
 
 ### Clone the Repository
 ```bash
-git clone https://github.com/saradaDas9866/urlshortener.git
+git clone https://github.com/saradaDas9866/UrlShortener.git
 cd urlshortener
