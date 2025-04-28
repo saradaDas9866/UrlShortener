@@ -7,9 +7,9 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan(basePackages = "com.sarada.entity")
-@EnableJpaRepositories(basePackages = "com.sarada.repository")
-@ComponentScan("com.sarada")
+@EntityScan(basePackages = "com.urlshortener.entity")
+@EnableJpaRepositories(basePackages = "com.urlshortener.repository")
+@ComponentScan("com.urlshortener")
 public class UrlShortenerApplication {
 
 	public static void main(String[] args) {

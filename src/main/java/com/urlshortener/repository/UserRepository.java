@@ -19,7 +19,7 @@ public interface  UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM user WHERE email = :email", nativeQuery = true)
     Optional<User> getUser(@Param("email") String email);
 
-    @Query("SELECT new com.sarada.dto.UserDto(u.id, u.email, u.name) FROM User u")
+    @Query("SELECT new com.urlshortener.dto.UserDto(u.id, u.email, u.name) FROM User u")
     List<UserDto> findAllUsers();
 
 }
