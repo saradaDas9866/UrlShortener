@@ -8,7 +8,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.urlshortener.dto.UserDto;
+import com.urlshortener.dto.UserRequestDto;
+import com.urlshortener.dto.UserResponseDto;
 import com.urlshortener.entity.Url;
 import com.urlshortener.entity.User;
 import com.urlshortener.entity.UserSecret;
@@ -48,24 +49,21 @@ public class UserController {
     private Environment environment;
 
     @PostMapping("/createUser")// Remove the csrf config file after you have configured the application to use token
-    public ResponseEntity<String> createUser(@RequestBody String payLoad) throws JsonProcessingException {
-        JsonObject userJson = JsonParser.parseString(payLoad).getAsJsonObject();
-        String email = userJson.get("email").getAsString();
+    public ResponseEntity<String> createUser(@RequestBody UserRequestDto userRequestDto) throws JsonProcessingException {
+        String email = userRequestDto.getEmail();
         Optional<User> user = userService.getUser(email);
-
-        String value = environment.getProperty("spring.flyway.enabled");
 
         if (user.isPresent())
             return ResponseEntity.badRequest().body("User with email id : " + email + " is already present please provide " +
                     "unique email id");
 
-        String name = userJson.get("name").getAsString();
+        String name = userRequestDto.getName();
         log.debug("Creating user with name : {}", name);
         log.debug("Mapping user {} to User Entity", name);
-        UserSecret userSecret = objectMapper.readValue(payLoad, UserSecret.class);
-        List<Url> urls = objectMapper.readValue(userJson.get("url").getAsJsonArray().toString(), new TypeReference<>() {
+        UserSecret userSecret = objectMapper.convertValue(userRequestDto, UserSecret.class);
+        List<Url> urls = objectMapper.convertValue(userRequestDto.getUrl(), new TypeReference<>() {
         });
-        User newUser = objectMapper.readValue(payLoad, User.class);
+        User newUser = objectMapper.convertValue(userRequestDto, User.class);
         log.debug("Mapping completed {} to User Entity", name);
         userService.saveUser(newUser);
         urls.forEach(e -> e.setUser(newUser));
@@ -79,8 +77,8 @@ public class UserController {
     }
 
     @GetMapping("/getUser")
-    public ResponseEntity<List<UserDto>> getUser() {
-        List<UserDto> users = userService.findAll();
+    public ResponseEntity<List<UserResponseDto>> getUser() {
+        List<UserResponseDto> users = userService.findAll();
         return ResponseEntity.ok().body(users);
     }
 }

@@ -1,6 +1,6 @@
 package com.urlshortener.repository;
 
-import com.urlshortener.dto.UserDto;
+import com.urlshortener.dto.UserResponseDto;
 import com.urlshortener.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +19,7 @@ public interface  UserRepository extends JpaRepository<User, Long> {
     @Query(value = "SELECT * FROM user WHERE email = :email", nativeQuery = true)
     Optional<User> getUser(@Param("email") String email);
 
-    @Query("SELECT new com.urlshortener.dto.UserDto(u.id, u.email, u.name) FROM User u")
-    List<UserDto> findAllUsers();
+    @Query("SELECT new com.urlshortener.dto.UserResponseDto(u.id, u.email, u.name) FROM User u")
+    List<UserResponseDto> findAllUsers();
 
 }

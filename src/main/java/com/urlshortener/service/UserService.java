@@ -1,6 +1,6 @@
 package com.urlshortener.service;
 
-import com.urlshortener.dto.UserDto;
+import com.urlshortener.dto.UserResponseDto;
 import com.urlshortener.entity.User;
 import com.urlshortener.entity.UserSecret;
 import com.urlshortener.repository.UserRepository;
@@ -24,7 +24,7 @@ public class UserService {
         userRepository.saveAndFlush(user);
     }
 
-    public List<UserDto> findAll() {
+    public List<UserResponseDto> findAll() {
 
         return userRepository.findAllUsers();
     }

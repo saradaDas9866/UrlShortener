@@ -5,20 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 
 @Getter
-@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserDto{
+public class UserRequestDto {
 
     private Long id;
     private String name;
     private String email;
+    private String secret;
+    private List<UrlDto> url;
 
-//    public UserDto(Long id, String email,String name){
-//        this.id = id;
-//        this.email=email;
-//        this.name = name;
-//    }
 }
